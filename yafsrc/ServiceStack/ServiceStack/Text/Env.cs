@@ -20,7 +20,7 @@ namespace ServiceStack.Text
     public static class Env
     {
         /// <summary>
-        /// Initializes static members of the <see cref="Env"/> class.
+        /// Initializes static members of the <see cref="Env" /> class.
         /// </summary>
         /// <exception cref="System.ArgumentException">PclExport.Instance needs to be initialized</exception>
         static Env()
@@ -79,7 +79,7 @@ namespace ServiceStack.Text
             SupportsDynamic = true;
 #endif
 
-#if NET5_0_OR_GREATER
+#if NETCORE
             IsNetStandard = false;
             IsNetCore = true;
             SupportsDynamic = true;
@@ -356,13 +356,22 @@ namespace ServiceStack.Text
         public static ConfiguredTaskAwaitable<T> ConfigAwait<T>(this Task<T> task) =>
             task.ConfigureAwait(ContinueOnCapturedContext);
 
-        private static readonly DateTime __releaseDate;
+        /// <summary>
+        /// Gets the release date.
+        /// </summary>
+        /// <value>The release date.</value>
+        public static DateTime ReleaseDate { get; }
+
+        /// <summary>
+        /// Gets the release date.
+        /// </summary>
+        /// <returns>DateTime.</returns>
         public static DateTime GetReleaseDate()
         {
-            return __releaseDate;
+            return ReleaseDate;
         }
 
-#if NETSTANDARD || NET5_0_OR_GREATER
+#if NETSTANDARD || NETCORE
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ConfiguredValueTaskAwaitable ConfigAwait(this ValueTask task) =>
             task.ConfigureAwait(ContinueOnCapturedContext);

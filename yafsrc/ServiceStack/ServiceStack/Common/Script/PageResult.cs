@@ -86,22 +86,10 @@ namespace ServiceStack.Script
         public List<ScriptMethods> ScriptMethods { get; set; }
 
         /// <summary>
-        /// Gets the template filters.
-        /// </summary>
-        /// <value>The template filters.</value>
-        [Obsolete("Use ScriptMethods")] public List<ScriptMethods> TemplateFilters => ScriptMethods;
-
-        /// <summary>
         /// Add additional script blocks available to all pages
         /// </summary>
         /// <value>The script blocks.</value>
         public List<ScriptBlock> ScriptBlocks { get; set; }
-
-        /// <summary>
-        /// Gets the template blocks.
-        /// </summary>
-        /// <value>The template blocks.</value>
-        [Obsolete("Use ScriptBlocks")] public List<ScriptBlock> TemplateBlocks => ScriptBlocks;
 
         /// <summary>
         /// Add additional partials available to all pages
@@ -147,7 +135,7 @@ namespace ServiceStack.Script
         /// Don't allow access to specified filters
         /// </summary>
         /// <value>The exclude filters named.</value>
-        public HashSet<string> ExcludeFiltersNamed { get; } = new HashSet<string>();
+        public HashSet<string> ExcludeFiltersNamed { get; } = new();
 
         /// <summary>
         /// The last error thrown by a filter
@@ -261,7 +249,7 @@ namespace ServiceStack.Script
         /// <summary>
         /// The stack trace
         /// </summary>
-        private readonly Stack<string> stackTrace = new Stack<string>();
+        private readonly Stack<string> stackTrace = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PageResult"/> class.
@@ -924,7 +912,7 @@ namespace ServiceStack.Script
         /// <param name="var">The variable.</param>
         /// <param name="outputStream">The output stream.</param>
         /// <returns>ScriptScopeContext.</returns>
-        private ScriptScopeContext CreatePageContext(PageVariableFragment var, Stream outputStream) => new ScriptScopeContext(this, outputStream, GetPageParams(var));
+        private ScriptScopeContext CreatePageContext(PageVariableFragment var, Stream outputStream) => new(this, outputStream, GetPageParams(var));
 
         /// <summary>
         /// Evaluate as an asynchronous operation.
@@ -1364,7 +1352,7 @@ namespace ServiceStack.Script
         /// <summary>
         /// The blocks map
         /// </summary>
-        private readonly Dictionary<string, ScriptBlock> blocksMap = new Dictionary<string, ScriptBlock>();
+        private readonly Dictionary<string, ScriptBlock> blocksMap = new();
 
         /// <summary>
         /// Tries the get block.
@@ -1393,7 +1381,7 @@ namespace ServiceStack.Script
         /// <param name="outputStream">The output stream.</param>
         /// <returns>ScriptScopeContext.</returns>
         public ScriptScopeContext CreateScope(Stream outputStream = null) =>
-            new ScriptScopeContext(this, outputStream ?? MemoryStreamFactory.GetStream(), null);
+            new(this, outputStream ?? MemoryStreamFactory.GetStream(), null);
 
         /// <summary>
         /// Gets the filter invoker.

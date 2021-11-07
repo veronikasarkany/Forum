@@ -17,7 +17,7 @@ namespace ServiceStack.MiniProfiler.Data
         /// <summary>
         /// Every provider factory must have an Instance public field
         /// </summary>
-        public static ProfiledProviderFactory Instance = new ProfiledProviderFactory();
+        public static ProfiledProviderFactory Instance = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProfiledProviderFactory"/> class.
@@ -57,7 +57,7 @@ namespace ServiceStack.MiniProfiler.Data
             WrappedFactory = wrappedFactory;
         }
 
-#if !NET5_0_OR_GREATER
+#if !NETCORE
         /// <summary>
         /// proxy
         /// </summary>
@@ -100,7 +100,7 @@ namespace ServiceStack.MiniProfiler.Data
         public override DbConnectionStringBuilder CreateConnectionStringBuilder() =>
             WrappedFactory.CreateConnectionStringBuilder();
 
-#if !NET5_0_OR_GREATER
+#if !NETCORE
         /// <summary>
         /// proxy
         /// </summary>

@@ -346,22 +346,6 @@ namespace ServiceStack.Script
         public string substring(string text, int startIndex, int length) => text.SafeSubstring(startIndex, length);
 
         /// <summary>
-        /// Substrings the with elipsis.
-        /// </summary>
-        /// <param name="text">The text.</param>
-        /// <param name="length">The length.</param>
-        /// <returns>System.String.</returns>
-        [Obsolete("typo")] public string substringWithElipsis(string text, int length) => text.SubstringWithEllipsis(0, length);
-        /// <summary>
-        /// Substrings the with elipsis.
-        /// </summary>
-        /// <param name="text">The text.</param>
-        /// <param name="startIndex">The start index.</param>
-        /// <param name="length">The length.</param>
-        /// <returns>System.String.</returns>
-        [Obsolete("typo")] public string substringWithElipsis(string text, int startIndex, int length) => text.SubstringWithEllipsis(startIndex, length);
-
-        /// <summary>
         /// Substrings the with ellipsis.
         /// </summary>
         /// <param name="text">The text.</param>
@@ -1021,15 +1005,15 @@ namespace ServiceStack.Script
         /// <summary>
         /// The invalid chars regex
         /// </summary>
-        private static readonly Regex InvalidCharsRegex = new Regex(@"[^a-z0-9\s-]", RegexOptions.Compiled);
+        private static readonly Regex InvalidCharsRegex = new(@"[^a-z0-9\s-]", RegexOptions.Compiled);
         /// <summary>
         /// The spaces regex
         /// </summary>
-        private static readonly Regex SpacesRegex = new Regex(@"\s", RegexOptions.Compiled);
+        private static readonly Regex SpacesRegex = new(@"\s", RegexOptions.Compiled);
         /// <summary>
         /// The collapse hyphens regex
         /// </summary>
-        private static readonly Regex CollapseHyphensRegex = new Regex("-+", RegexOptions.Compiled);
+        private static readonly Regex CollapseHyphensRegex = new("-+", RegexOptions.Compiled);
 
         /// <summary>
         /// Generates the slug.

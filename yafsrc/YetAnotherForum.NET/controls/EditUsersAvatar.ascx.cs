@@ -241,12 +241,10 @@ namespace YAF.Controls
 
                     using (var memory = new MemoryStream())
                     {
-                        using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite))
-                        {
-                            avatarImage.Save(memory, avatarImage.RawFormat);
-                            var bytes = memory.ToArray();
-                            fs.Write(bytes, 0, bytes.Length);
-                        }
+                        using var fs = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite);
+                        avatarImage.Save(memory, avatarImage.RawFormat);
+                        var bytes = memory.ToArray();
+                        fs.Write(bytes, 0, bytes.Length);
                     }
 
                     this.GetRepository<User>().SaveAvatar(

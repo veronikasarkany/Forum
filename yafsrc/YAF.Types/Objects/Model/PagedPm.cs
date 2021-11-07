@@ -29,6 +29,7 @@ namespace YAF.Types.Objects.Model
     /// <summary>
     /// The paged private Message.
     /// </summary>
+    [Serializable]
     public class PagedPm
     {
         /// <summary>
@@ -70,6 +71,10 @@ namespace YAF.Types.Objects.Model
         /// Gets or sets the from suspended.
         /// </summary>
         public DateTime? FromSuspended { get; set; }
+
+        public string FromAvatar { get; set; }
+
+        public bool FromHasAvatarImage { get; set; }
 
         /// <summary>
         /// Gets or sets the to user id.

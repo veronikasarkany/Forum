@@ -66,9 +66,9 @@ namespace YAF.Core.Services.CheckForSpam
             int timeout,
             [NotNull] IWebProxy proxy)
         {
-            CodeContracts.VerifyNotNull(url, "url");
-            CodeContracts.VerifyNotNull(userAgent, "userAgent");
-            CodeContracts.VerifyNotNull(proxy, "proxy");
+            CodeContracts.VerifyNotNull(url);
+            CodeContracts.VerifyNotNull(userAgent);
+            CodeContracts.VerifyNotNull(proxy);
 
             ServicePointManager.Expect100Continue = false;
             var request = WebRequest.Create(url) as HttpWebRequest;
@@ -101,12 +101,9 @@ namespace YAF.Core.Services.CheckForSpam
                     response.StatusCode);
             }
 
-            string responseText;
-            using (var reader = new StreamReader(response.GetResponseStream(), Encoding.ASCII))
-            {
-                // They only return "true" or "false"
-                responseText = reader.ReadToEnd();
-            }
+            using var reader = new StreamReader(response.GetResponseStream(), Encoding.ASCII);
+            // They only return "true" or "false"
+            string responseText = reader.ReadToEnd();
 
             return responseText;
         }
@@ -169,8 +166,8 @@ namespace YAF.Core.Services.CheckForSpam
             [NotNull] string formParameters,
             [CanBeNull] IWebProxy proxy)
         {
-            CodeContracts.VerifyNotNull(url, "url");
-            CodeContracts.VerifyNotNull(formParameters, "formParameters");
+            CodeContracts.VerifyNotNull(url);
+            CodeContracts.VerifyNotNull(formParameters);
 
             ServicePointManager.Expect100Continue = false;
             var request = WebRequest.Create(url) as HttpWebRequest;
@@ -196,10 +193,8 @@ namespace YAF.Core.Services.CheckForSpam
             request.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
             request.KeepAlive = true;
 
-            using (var myWriter = new StreamWriter(request.GetRequestStream()))
-            {
-                myWriter.Write(formParameters);
-            }
+            using var myWriter = new StreamWriter(request.GetRequestStream());
+            myWriter.Write(formParameters);
 
             var response = (HttpWebResponse)request.GetResponse();
 
@@ -213,12 +208,9 @@ namespace YAF.Core.Services.CheckForSpam
                     response.StatusCode);
             }
 
-            string responseText;
-            using (var reader = new StreamReader(response.GetResponseStream(), Encoding.ASCII))
-            {
-                // They only return "true" or "false"
-                responseText = reader.ReadToEnd();
-            }
+            using var reader = new StreamReader(response.GetResponseStream(), Encoding.ASCII);
+            // They only return "true" or "false"
+            string responseText = reader.ReadToEnd();
 
             return responseText;
         }

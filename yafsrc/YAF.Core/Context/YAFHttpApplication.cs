@@ -27,9 +27,11 @@ namespace YAF.Core.Context
     using System;
     using System.Web;
     using System.Web.Http;
+    using System.Web.UI;
 
     using Autofac;
 
+    using YAF.Configuration;
     using YAF.Core.Context.Start;
     using YAF.Core.Extensions;
     using YAF.Core.Helpers;
@@ -63,16 +65,42 @@ namespace YAF.Core.Context
         protected void Application_Error([NotNull] object sender, [NotNull] EventArgs e)
         {
             var exception = this.Server.GetLastError();
-            int? userId = BoardContext.Current != null ? BoardContext.Current.PageUserID : null;
+            var userId = BoardContext.Current?.PageUserID;
 
             this.Application["Exception"] = exception.ToString();
             this.Application["ExceptionMessage"] = exception.Message;
 
-            this.Get<ILoggerService>().Log(
-                exception.Message,
-                EventLogTypes.Error,
-                exception: exception,
-                userId: userId);
+            if (exception.GetType() == typeof(HttpException) && exception.InnerException is ViewStateException
+                || exception.Source.Contains("ViewStateException"))
+            {
+                bool logViewStateError;
+
+                try
+                {
+                    logViewStateError = this.Get<BoardSettings>().LogViewStateError;
+                }
+                catch (Exception)
+                {
+                    logViewStateError = true;
+                }
+
+                if (logViewStateError)
+                {
+                    this.Get<ILoggerService>().Log(
+                        exception.Message,
+                        EventLogTypes.Error,
+                        exception: exception,
+                        userId: userId);
+                }
+            }
+            else
+            {
+                this.Get<ILoggerService>().Log(
+                    exception.Message,
+                    EventLogTypes.Error,
+                    exception: exception,
+                    userId: userId);
+            }
         }
 
         /// <summary>
